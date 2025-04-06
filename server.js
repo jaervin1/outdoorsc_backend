@@ -248,7 +248,7 @@ let activities = [{
         comment: "Nice loop for a longer outing without driving too far.",
       },
     ],
-    pictures: ["images/croft1.jpg", "images/croft2.jpg", "images/croft3.jpg"],
+    images: ["images/croft1.jpg", "images/croft2.jpg", "images/croft3.jpg"],
   },
 ];
 
