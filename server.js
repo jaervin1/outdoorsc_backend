@@ -40,9 +40,9 @@ let activities = [{
       },
     ],
     pictures: [
-      "images/boardwalk1.jpg",
-      "images/boardwalk2.jpg",
-      "images/boardwalk3.jpg",
+      "boardwalk1.jpg",
+      "boardwalk2.jpg",
+      "boardwalk3.jpg",
     ],
   },
   {
@@ -77,9 +77,9 @@ let activities = [{
       },
     ],
     pictures: [
-      "images/tablerock1.jpg",
-      "images/tablerock2.jpg",
-      "images/tablerock3.jpg",
+      "tablerock1.jpg",
+      "tablerock2.jpg",
+      "tablerock3.jpg",
     ],
   },
   {
@@ -114,9 +114,9 @@ let activities = [{
       },
     ],
     pictures: [
-      "images/ravencliff1.jpg",
-      "images/ravencliff2.jpg",
-      "images/ravencliff3.jpg",
+      "ravencliff1.jpg",
+      "ravencliff2.jpg",
+      "ravencliff3.jpg",
     ],
   },
   {
@@ -152,9 +152,9 @@ let activities = [{
       },
     ],
     pictures: [
-      "images/foothills1.jpg",
-      "images/foothills2.jpg",
-      "images/foothills3.jpg",
+      "foothills1.jpg",
+      "foothills2.jpg",
+      "foothills3.jpg",
     ],
   },
   {
@@ -188,9 +188,9 @@ let activities = [{
       },
     ],
     pictures: [
-      "images/kingsmountain1.jpg",
-      "images/kingsmountain2.jpg",
-      "images/kingsmountain3.jpg",
+      "kingsmountain1.jpg",
+      "kingsmountain2.jpg",
+      "kingsmountain3.jpg",
     ],
   },
   {
@@ -219,9 +219,9 @@ let activities = [{
       },
     ],
     pictures: [
-      "images/peachrock1.jpg",
-      "images/peachrock2.jpg",
-      "images/peachrock3.jpg",
+      "peachrock1.jpg",
+      "peachrock2.jpg",
+      "peachrock3.jpg",
     ],
   },
   {
@@ -248,7 +248,11 @@ let activities = [{
         comment: "Nice loop for a longer outing without driving too far.",
       },
     ],
-    pictures: ["images/croft1.jpg", "images/croft2.jpg", "images/croft3.jpg"],
+    pictures: [
+      "croft1.jpg",
+      "croft2.jpg", 
+      "croft3.jpg"
+    ],
   },
 ];
 
