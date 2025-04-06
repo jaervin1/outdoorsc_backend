@@ -1,0 +1,36 @@
+:root {
+  --primary: #344e41;
+  --secondary: #dad7cd;
+  --content-background: #dad7cd;
+  --content-background-two:#a3b18a;
+  --content-background-three:#c7d0b8;
+  --footer-background: #3a5a40;
+  --review-background: #adb5bd;
+  --header-color:#3a5a40;
+  --page-background:#ebeee6;
+  --unchecked-star: #7a8c7b;
+
+}
+
+html {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--page-background);
+  text-align: center;
+}
+
+h1 {
+  color: var(--header-color);
+  font-size: 60px;
+}
+
+p {
+  color: var(--primary);
+  font-size: 30px;
+}
+
+a {
+  color: var(--footer-background);
+}
