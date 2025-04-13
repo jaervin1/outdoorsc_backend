@@ -26,21 +26,36 @@ const upload = multer.diskStorage({
 });
 
 app.get("/", (req, res) => {
+<<<<<<< HEAD
   res.sendFile(__dirname + "/index.html");
 });
 
 let activities = [
   {
+=======
+  res.sendFile(__dirname + "/public/index.html");
+});
+
+let activities = [{
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     name: "Boardwalk Trail",
     _id: 1,
     author: "jaervin",
     location: "Congaree National Park",
     description:
+<<<<<<< HEAD
       " Scenic walk through one of the most unique biospheres in the state.",
     length: 2.4,
     type: "Loop",
     difficulty: "EASY",
     rating: 5,
+=======
+      "Scenic walk through one of the most unique biospheres in the state.",
+    length: 2.4,
+    routeType: "Loop",
+    difficulty: "EASY",
+    rating: 5.0,
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     activityType: "hike",
     reviews: [
       {
@@ -59,12 +74,21 @@ let activities = [
         rating: 5,
         comment: "AWESOME",
       },
+<<<<<<< HEAD
     ],
     pictures: [
       "images/trail-one.jpg",
       "images/image2.jpg",
       "images/image3.jpg",
     ],
+=======
+    ],
+    pictures: [
+      "boardwalk1.jpg",
+      "boardwalk2.jpg",
+      "boardwalk3.jpg",
+    ],
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
   },
   {
     name: "Table Rock Trail",
@@ -74,9 +98,16 @@ let activities = [
     description:
       "A challenging trail leading to breathtaking panoramic views from Table Rock Mountain. The steep ascent is rewarded with one of the best overlooks in South Carolina.",
     length: 7.2,
+<<<<<<< HEAD
     type: "Out and Back",
     difficulty: "HARD",
     rating: 4.8,
+=======
+    routeType: "Out and Back",
+    difficulty: "HARD",
+    rating: 4.8,
+    activityType: "hike",
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     reviews: [
       {
         author: "NatureNerd45",
@@ -95,12 +126,21 @@ let activities = [
         rating: 5,
         comment: "One of the best hikes in the state. Amazing views!",
       },
+<<<<<<< HEAD
     ],
     pictures: [
       "images/trail-two.jpg",
       "images/image2.jpg",
       "images/image3.jpg",
     ],
+=======
+    ],
+    pictures: [
+      "tablerock1.jpg",
+      "tablerock2.jpg",
+      "tablerock3.jpg",
+    ],
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
   },
   {
     name: "Raven Cliff Falls Trail",
@@ -110,9 +150,16 @@ let activities = [
     description:
       "A scenic hike leading to an overlook of the tallest waterfall in South Carolina. A great balance between effort and reward.",
     length: 4.0,
+<<<<<<< HEAD
     type: "Out & Back",
     difficulty: "MODERATE",
     rating: 3.0,
+=======
+    routeType: "Out and Back",
+    difficulty: "MODERATE",
+    rating: 4.5,
+    activityType: "hike",
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     reviews: [
       {
         author: "HikingLover92",
@@ -131,12 +178,21 @@ let activities = [
         comment:
           "Loved the trail, though I wish you could get closer to the falls.",
       },
+<<<<<<< HEAD
     ],
     pictures: [
       "images/trail-two.jpg",
       "images/ravencliff2.jpg",
       "images/ravencliff3.jpg",
     ],
+=======
+    ],
+    pictures: [
+      "ravencliff1.jpg",
+      "ravencliff2.jpg",
+      "ravencliff3.jpg",
+    ],
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
   },
   {
     name: "Foothills Trail - Laurel Valley to Sassafras Mountain",
@@ -146,9 +202,16 @@ let activities = [
     description:
       "A tough but rewarding section of the Foothills Trail, leading to the highest point in South Carolina with incredible views.",
     length: 14.2,
+<<<<<<< HEAD
     type: "Point to Point",
     difficulty: "HARD",
     rating: 4.9,
+=======
+    routeType: "Point to Point",
+    difficulty: "HARD",
+    rating: 4.9,
+    activityType: "hike",
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     reviews: [
       {
         author: "TrailMaster87",
@@ -168,12 +231,21 @@ let activities = [
         comment:
           "Great experience, but definitely not for beginners. Be prepared!",
       },
+<<<<<<< HEAD
     ],
     pictures: [
       "images/trail-three.jpg",
       "images/sassafras-mountain.jpg",
       "images/valley-view.jpg",
     ],
+=======
+    ],
+    pictures: [
+      "foothills1.jpg",
+      "foothills2.jpg",
+      "foothills3.jpg",
+    ],
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
   },
   {
     name: "Kings Mountain National Recreation Trail",
@@ -183,9 +255,16 @@ let activities = [
     description:
       "A historical trail that follows the path of Revolutionary War soldiers, featuring rolling terrain and informative markers along the way.",
     length: 16.0,
+<<<<<<< HEAD
     type: "Loop",
     difficulty: "MODERATE",
     rating: 4.3,
+=======
+    routeType: "Loop",
+    difficulty: "MODERATE",
+    rating: 4.3,
+    activityType: "hike",
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     reviews: [
       {
         author: "HistoryBuff101",
@@ -205,9 +284,76 @@ let activities = [
       },
     ],
     pictures: [
+<<<<<<< HEAD
       "images/trail-four.jpg",
       "images/trail-sign.jpg",
       "images/historical-marker.jpg",
+=======
+      "kingsmountain1.jpg",
+      "kingsmountain2.jpg",
+      "kingsmountain3.jpg",
+    ],
+  },
+  {
+    name: "Peachtree Rock Heritage Preserve Trail",
+    _id: 6,
+    author: "localwanderer",
+    location: "Lexington County",
+    description:
+      "An easy trail that showcases sandstone formations and small waterfalls. Great for a quick escape into nature.",
+    length: 1.7,
+    routeType: "Loop",
+    difficulty: "EASY",
+    rating: 4.2,
+    activityType: "hike",
+    reviews: [
+      {
+        author: "QuickTrekker",
+        rating: 4,
+        comment:
+          "Nice little trail for a short trip. Interesting rock formations!",
+      },
+      {
+        author: "FamilyHiker",
+        rating: 4.5,
+        comment: "Great for kids, easy and educational.",
+      },
+    ],
+    pictures: [
+      "peachrock1.jpg",
+      "peachrock2.jpg",
+      "peachrock3.jpg",
+    ],
+  },
+  {
+    name: "Croft State Park Trail System",
+    _id: 7,
+    author: "bikepackerSC",
+    location: "Croft State Park",
+    description:
+      "A multi-use trail system ideal for hiking, biking, and horseback riding. Features dense woods, streams, and a peaceful lake.",
+    length: 12.0,
+    routeType: "Loop",
+    difficulty: "MODERATE",
+    rating: 4.6,
+    activityType: "hike",
+    reviews: [
+      {
+        author: "BikerBob",
+        rating: 5,
+        comment: "Great variety of trails and terrain. Well-maintained.",
+      },
+      {
+        author: "TrailMom",
+        rating: 4.5,
+        comment: "Nice loop for a longer outing without driving too far.",
+      },
+    ],
+    pictures: [
+      "croft1.jpg",
+      "croft2.jpg", 
+      "croft3.jpg"
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     ],
   },
 ];
@@ -219,5 +365,9 @@ app.get("/api/activities", (req, res) => {
 });
 
 app.listen(3001, () => {
+<<<<<<< HEAD
   console.log("pass");
+=======
+  console.log("testing");
+>>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
 });
