@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const multer = require('multer');
-const Joi = require('joi');
+const multer = require("multer");
+const Joi = require("joi");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
@@ -16,46 +16,24 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
+const upload = multer({ storage: storage });
 
 app.get("/", (req, res) => {
-<<<<<<< HEAD
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 let activities = [
   {
-=======
-  res.sendFile(__dirname + "/public/index.html");
-});
-
-let activities = [{
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     name: "Boardwalk Trail",
     _id: 1,
     author: "jaervin",
     location: "Congaree National Park",
     description:
-<<<<<<< HEAD
-      " Scenic walk through one of the most unique biospheres in the state.",
-    length: 2.4,
-    type: "Loop",
-    difficulty: "EASY",
-    rating: 5,
-=======
       "Scenic walk through one of the most unique biospheres in the state.",
     length: 2.4,
     routeType: "Loop",
-    difficulty: "EASY",
+    difficulty: "Easy",
     rating: 5.0,
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     activityType: "hike",
     reviews: [
       {
@@ -74,21 +52,8 @@ let activities = [{
         rating: 5,
         comment: "AWESOME",
       },
-<<<<<<< HEAD
     ],
-    pictures: [
-      "images/trail-one.jpg",
-      "images/image2.jpg",
-      "images/image3.jpg",
-    ],
-=======
-    ],
-    pictures: [
-      "boardwalk1.jpg",
-      "boardwalk2.jpg",
-      "boardwalk3.jpg",
-    ],
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
+    pictures: ["boardwalk1.jpg", "boardwalk2.jpg", "boardwalk3.jpg"],
   },
   {
     name: "Table Rock Trail",
@@ -98,16 +63,10 @@ let activities = [{
     description:
       "A challenging trail leading to breathtaking panoramic views from Table Rock Mountain. The steep ascent is rewarded with one of the best overlooks in South Carolina.",
     length: 7.2,
-<<<<<<< HEAD
-    type: "Out and Back",
-    difficulty: "HARD",
-    rating: 4.8,
-=======
     routeType: "Out and Back",
-    difficulty: "HARD",
+    difficulty: "Hard",
     rating: 4.8,
     activityType: "hike",
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     reviews: [
       {
         author: "NatureNerd45",
@@ -126,21 +85,8 @@ let activities = [{
         rating: 5,
         comment: "One of the best hikes in the state. Amazing views!",
       },
-<<<<<<< HEAD
     ],
-    pictures: [
-      "images/trail-two.jpg",
-      "images/image2.jpg",
-      "images/image3.jpg",
-    ],
-=======
-    ],
-    pictures: [
-      "tablerock1.jpg",
-      "tablerock2.jpg",
-      "tablerock3.jpg",
-    ],
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
+    pictures: ["tablerock1.jpg", "tablerock2.jpg", "tablerock3.jpg"],
   },
   {
     name: "Raven Cliff Falls Trail",
@@ -150,16 +96,10 @@ let activities = [{
     description:
       "A scenic hike leading to an overlook of the tallest waterfall in South Carolina. A great balance between effort and reward.",
     length: 4.0,
-<<<<<<< HEAD
-    type: "Out & Back",
-    difficulty: "MODERATE",
-    rating: 3.0,
-=======
     routeType: "Out and Back",
-    difficulty: "MODERATE",
+    difficulty: "Moderate",
     rating: 4.5,
     activityType: "hike",
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     reviews: [
       {
         author: "HikingLover92",
@@ -178,21 +118,8 @@ let activities = [{
         comment:
           "Loved the trail, though I wish you could get closer to the falls.",
       },
-<<<<<<< HEAD
     ],
-    pictures: [
-      "images/trail-two.jpg",
-      "images/ravencliff2.jpg",
-      "images/ravencliff3.jpg",
-    ],
-=======
-    ],
-    pictures: [
-      "ravencliff1.jpg",
-      "ravencliff2.jpg",
-      "ravencliff3.jpg",
-    ],
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
+    pictures: ["ravencliff1.jpg", "ravencliff2.jpg", "ravencliff3.jpg"],
   },
   {
     name: "Foothills Trail - Laurel Valley to Sassafras Mountain",
@@ -202,16 +129,10 @@ let activities = [{
     description:
       "A tough but rewarding section of the Foothills Trail, leading to the highest point in South Carolina with incredible views.",
     length: 14.2,
-<<<<<<< HEAD
-    type: "Point to Point",
-    difficulty: "HARD",
-    rating: 4.9,
-=======
     routeType: "Point to Point",
-    difficulty: "HARD",
+    difficulty: "Hard",
     rating: 4.9,
     activityType: "hike",
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     reviews: [
       {
         author: "TrailMaster87",
@@ -231,21 +152,8 @@ let activities = [{
         comment:
           "Great experience, but definitely not for beginners. Be prepared!",
       },
-<<<<<<< HEAD
     ],
-    pictures: [
-      "images/trail-three.jpg",
-      "images/sassafras-mountain.jpg",
-      "images/valley-view.jpg",
-    ],
-=======
-    ],
-    pictures: [
-      "foothills1.jpg",
-      "foothills2.jpg",
-      "foothills3.jpg",
-    ],
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
+    pictures: ["foothills1.jpg", "foothills2.jpg", "foothills3.jpg"],
   },
   {
     name: "Kings Mountain National Recreation Trail",
@@ -255,16 +163,10 @@ let activities = [{
     description:
       "A historical trail that follows the path of Revolutionary War soldiers, featuring rolling terrain and informative markers along the way.",
     length: 16.0,
-<<<<<<< HEAD
-    type: "Loop",
-    difficulty: "MODERATE",
-    rating: 4.3,
-=======
     routeType: "Loop",
-    difficulty: "MODERATE",
+    difficulty: "Moderate",
     rating: 4.3,
     activityType: "hike",
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
     reviews: [
       {
         author: "HistoryBuff101",
@@ -284,11 +186,6 @@ let activities = [{
       },
     ],
     pictures: [
-<<<<<<< HEAD
-      "images/trail-four.jpg",
-      "images/trail-sign.jpg",
-      "images/historical-marker.jpg",
-=======
       "kingsmountain1.jpg",
       "kingsmountain2.jpg",
       "kingsmountain3.jpg",
@@ -303,7 +200,7 @@ let activities = [{
       "An easy trail that showcases sandstone formations and small waterfalls. Great for a quick escape into nature.",
     length: 1.7,
     routeType: "Loop",
-    difficulty: "EASY",
+    difficulty: "Easy",
     rating: 4.2,
     activityType: "hike",
     reviews: [
@@ -319,11 +216,7 @@ let activities = [{
         comment: "Great for kids, easy and educational.",
       },
     ],
-    pictures: [
-      "peachrock1.jpg",
-      "peachrock2.jpg",
-      "peachrock3.jpg",
-    ],
+    pictures: ["peachrock1.jpg", "peachrock2.jpg", "peachrock3.jpg"],
   },
   {
     name: "Croft State Park Trail System",
@@ -334,7 +227,7 @@ let activities = [{
       "A multi-use trail system ideal for hiking, biking, and horseback riding. Features dense woods, streams, and a peaceful lake.",
     length: 12.0,
     routeType: "Loop",
-    difficulty: "MODERATE",
+    difficulty: "Moderate",
     rating: 4.6,
     activityType: "hike",
     reviews: [
@@ -349,25 +242,73 @@ let activities = [{
         comment: "Nice loop for a longer outing without driving too far.",
       },
     ],
-    pictures: [
-      "croft1.jpg",
-      "croft2.jpg", 
-      "croft3.jpg"
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
-    ],
+    pictures: ["croft1.jpg", "croft2.jpg", "croft3.jpg"],
   },
 ];
-
-
 
 app.get("/api/activities", (req, res) => {
   res.send(activities);
 });
 
+app.post("/api/activities", upload.single("img"), (req, res) => {
+  const result = validateActivity(req.body);
+
+  if (result.error) {
+    console.log("Post Error");
+    res.status(400).send(result.error.details[0].message);
+    return;
+  }
+
+  const activity = {
+    _id: activities.length,
+    name: req.body.name,
+    author: req.body.author,
+    location: req.body.location,
+    description: req.body.description,
+    length: req.body.length,
+    routeType: req.body.routeType,
+    difficulty: req.body.difficulty,
+    rating: req.body.rating,
+    activityType: req.body.activityType,
+    reviews: JSON.parse(req.body.reviews || "[]"),
+    pictures: JSON.parse(req.body.pictures || "[]"),
+  };
+
+  houses.push(activity);
+  res.status(200).send(activity);
+});
+
+const validateActivity = (activity) => {
+  const scheme = Joi.object({
+    _id: Joi.allow(""),
+    name: Joi.string().min(3).required(),
+    author: Joi.string().min(3).required(),
+    location: Joi.string().min(3).required(),
+    description: Joi.string().min(10).required(),
+    length: Joi.number().min(0.1).required(),
+    routeType: Joi.string()
+      .valid("Loop", "Out & Back", "Point to Point", "Other")
+      .required(),
+    difficulty: Joi.string().valid("Easy", "Moderate", "Hard").required(),
+    rating: Joi.number().min(0).max(5).required(),
+    activityType: Joi.string()
+      .valid("hike", "bike", "kayak", "run", "walk")
+      .required(),
+    reviews: Joi.array()
+      .items(
+        Joi.object({
+          author: Joi.string().min(3).required(),
+          rating: Joi.number().min(0).max(5).required(),
+          comment: Joi.string().min(5).required(),
+        })
+      )
+      .required(),
+    pictures: Joi.array().items(Joi.string().min(3)).required(),
+  });
+
+  return schema.validate(activity);
+};
+
 app.listen(3001, () => {
-<<<<<<< HEAD
-  console.log("pass");
-=======
   console.log("testing");
->>>>>>> de74d940d22e0d16899238b7bedf665bbb3d172f
 });
