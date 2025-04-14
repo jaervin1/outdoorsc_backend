@@ -262,7 +262,6 @@ app.post("/api/activities", upload.single("img"), (req, res) => {
   const activity = {
     _id: activities.length,
     name: req.body.name,
-    author: req.body.author,
     location: req.body.location,
     description: req.body.description,
     length: req.body.length,
@@ -270,19 +269,17 @@ app.post("/api/activities", upload.single("img"), (req, res) => {
     difficulty: req.body.difficulty,
     rating: req.body.rating,
     activityType: req.body.activityType,
-    reviews: JSON.parse(req.body.reviews || "[]"),
     pictures: JSON.parse(req.body.pictures || "[]"),
   };
 
-  houses.push(activity);
+  activities.push(activity);
   res.status(200).send(activity);
 });
 
 const validateActivity = (activity) => {
-  const scheme = Joi.object({
+  const schema = Joi.object({
     _id: Joi.allow(""),
     name: Joi.string().min(3).required(),
-    author: Joi.string().min(3).required(),
     location: Joi.string().min(3).required(),
     description: Joi.string().min(10).required(),
     length: Joi.number().min(0.1).required(),
@@ -294,16 +291,7 @@ const validateActivity = (activity) => {
     activityType: Joi.string()
       .valid("hike", "bike", "kayak", "run", "walk")
       .required(),
-    reviews: Joi.array()
-      .items(
-        Joi.object({
-          author: Joi.string().min(3).required(),
-          rating: Joi.number().min(0).max(5).required(),
-          comment: Joi.string().min(5).required(),
-        })
-      )
-      .required(),
-    pictures: Joi.array().items(Joi.string().min(3)).required(),
+    pictures: Joi.array().items(Joi.string().min(3))
   });
 
   return schema.validate(activity);
