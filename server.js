@@ -284,11 +284,11 @@ const validateActivity = (activity) => {
     description: Joi.string().min(10).required(),
     length: Joi.number().min(0.1).required(),
     routeType: Joi.string()
-      .valid("Loop", "Out & Back", "Point to Point", "Other")
+      .valid("Loop", "Out and Back", "Point to Point", "Other")
       .required(),
     difficulty: Joi.string().valid("Easy", "Moderate", "Hard").required(),
     activityType: Joi.string()
-      .valid("hike", "bike", "kayak", "run", "walk")
+      .valid("Hike", "Bike", "Kayak", "Run", "Walk")
       .required(),
     pictures: Joi.array().items(Joi.string().min(3))
   });
