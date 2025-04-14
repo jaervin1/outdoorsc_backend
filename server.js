@@ -287,7 +287,6 @@ const validateActivity = (activity) => {
       .valid("Loop", "Out & Back", "Point to Point", "Other")
       .required(),
     difficulty: Joi.string().valid("Easy", "Moderate", "Hard").required(),
-    rating: Joi.number().min(0).max(5).required(),
     activityType: Joi.string()
       .valid("hike", "bike", "kayak", "run", "walk")
       .required(),
