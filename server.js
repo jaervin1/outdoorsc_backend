@@ -336,7 +336,7 @@ app.put("/api/activities/:id", upload.single("img"), (req, res) => {
 });
 
 // Delete activity
-app.delete("/api/activities/:_id", (req, res) => {
+app.delete("/api/activities/:id", (req, res) => {
   const activity = activities.find(
     (activity) => activity._id === parseInt(req.params.id)
   );
@@ -350,6 +350,13 @@ app.delete("/api/activities/:_id", (req, res) => {
   const index = activities.indexOf(activity);
   activities.splice(index, 1);
   res.status(200).send(activity);
+});
+
+app.get("/api/activities/:id", (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const activity = activities.find((a) => a._id === id);
+  if (!activity) return res.status(404).send("Not found");
+  res.send(activity);
 });
 
 app.get("/api/activities", (req, res) => {
