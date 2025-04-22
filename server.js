@@ -16,16 +16,43 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
-});
+const validateActivity = (activity) => {
+  const schema = Joi.object({
+    _id: Joi.number().optional(),
+    name: Joi.string().min(3).required(),
+    author: Joi.string().min(3).required(),
+    location: Joi.string().min(3).required(),
+    description: Joi.string().min(10).required(),
+    length: Joi.number().min(0).required(),
+    routeType: Joi.string()
+      .valid("Loop", "Out and Back", "Point to Point")
+      .required(),
+    difficulty: Joi.string().valid("Easy", "Moderate", "Hard").required(),
+    activityType: Joi.string()
+      .valid("Hike", "Bike", "Kayak", "Walk", "Run")
+      .required(),
+    pictures: Joi.array().items(Joi.string()).optional(),
+    rating: Joi.number().min(0).max(5).optional(),
+    reviews: Joi.array
+      .optional()
+      .items(
+        Joi.object({
+          author: Joi.string().min(1).required(),
+          rating: Joi.number().integer().min(0).max(5).required(),
+          comment: Joi.string().min(3).required(),
+        })
+      )
+      .optional(),
+  });
+  return schema.validate(activity);
+};
 
 let activities = [
   {
-    name: "Boardwalk Trail",
     _id: 1,
+    name: "Boardwalk Trail",
     author: "jaervin",
     location: "Congaree National Park",
     description:
@@ -33,79 +60,72 @@ let activities = [
     length: 2.4,
     routeType: "Loop",
     difficulty: "Easy",
+    activityType: "Hike",
     rating: 5.0,
-    activityType: "hike",
+    pictures: ["boardwalk1.jpg", "boardwalk2.jpg", "boardwalk3.jpg"],
     reviews: [
       {
         author: "AwesomeCarnival18",
         rating: 5,
-        comment:
-          "Great place! brought my family and they loved it. Such a close but beautiful spot",
+        comment: "Great place! Brought my family and they loved it.",
       },
       {
         author: "TheDude2",
         rating: 5,
-        comment: "Easy and Simple, great outing",
+        comment: "Easy and simple, great outing.",
       },
-      {
-        author: "SandMan23",
-        rating: 5,
-        comment: "AWESOME",
-      },
+      { author: "SandMan23", rating: 5, comment: "AWESOME" },
     ],
-    pictures: ["boardwalk1.jpg", "boardwalk2.jpg", "boardwalk3.jpg"],
   },
   {
-    name: "Table Rock Trail",
     _id: 2,
+    name: "Table Rock Trail",
     author: "hikeguru",
     location: "Table Rock State Park",
     description:
-      "A challenging trail leading to breathtaking panoramic views from Table Rock Mountain. The steep ascent is rewarded with one of the best overlooks in South Carolina.",
+      "A challenging trail leading to breathtaking panoramic views from Table Rock Mountain.",
     length: 7.2,
     routeType: "Out and Back",
     difficulty: "Hard",
+    activityType: "Hike",
     rating: 4.8,
-    activityType: "hike",
+    pictures: ["tablerock1.jpg", "tablerock2.jpg", "tablerock3.jpg"],
     reviews: [
       {
         author: "NatureNerd45",
         rating: 5,
-        comment:
-          "Tough but rewarding! The view from the top is absolutely stunning.",
+        comment: "Tough but rewarding! The view is stunning.",
       },
       {
         author: "MountainGoatHiker",
         rating: 4,
-        comment:
-          "Steep and challenging, but worth the effort. Bring plenty of water!",
+        comment: "Steep and challenging, but worth the effort.",
       },
       {
         author: "SCExplorer",
         rating: 5,
-        comment: "One of the best hikes in the state. Amazing views!",
+        comment: "One of the best hikes in the state.",
       },
     ],
-    pictures: ["tablerock1.jpg", "tablerock2.jpg", "tablerock3.jpg"],
   },
   {
-    name: "Raven Cliff Falls Trail",
     _id: 3,
+    name: "Raven Cliff Falls Trail",
     author: "waterfallfan",
     location: "Caesars Head State Park",
     description:
-      "A scenic hike leading to an overlook of the tallest waterfall in South Carolina. A great balance between effort and reward.",
+      "A scenic hike to an overlook of the tallest waterfall in South Carolina.",
     length: 4.0,
     routeType: "Out and Back",
     difficulty: "Moderate",
+    activityType: "Hike",
     rating: 4.5,
-    activityType: "hike",
+    pictures: ["ravencliff1.jpg", "ravencliff2.jpg", "ravencliff3.jpg"],
     reviews: [
       {
         author: "HikingLover92",
         rating: 5,
-        comment:
-          "Absolutely beautiful! The waterfall is stunning, especially after rain.",
+        comment: "Absolutely beautiful! The waterfall is stunning.",
       },
       {
         author: "WeekendExplorer",
@@ -114,147 +134,141 @@ let activities = [
       },
       {
         author: "TrailSeeker",
-        rating: 4.5,
-        comment:
-          "Loved the trail, though I wish you could get closer to the falls.",
+        rating: 4,
+        comment: "Loved the trail, though wish you could get closer.",
       },
     ],
-    pictures: ["ravencliff1.jpg", "ravencliff2.jpg", "ravencliff3.jpg"],
   },
   {
-    name: "Foothills Trail - Laurel Valley to Sassafras Mountain",
     _id: 4,
+    name: "Foothills Trail – Laurel Valley to Sassafras Mountain",
     author: "mountainman",
     location: "Foothills Trail",
     description:
-      "A tough but rewarding section of the Foothills Trail, leading to the highest point in South Carolina with incredible views.",
+      "A tough but rewarding section leading to the highest point in South Carolina.",
     length: 14.2,
     routeType: "Point to Point",
     difficulty: "Hard",
+    activityType: "Hike",
     rating: 4.9,
-    activityType: "hike",
+    pictures: ["foothills1.jpg", "foothills2.jpg", "foothills3.jpg"],
     reviews: [
       {
         author: "TrailMaster87",
         rating: 5,
-        comment:
-          "Challenging but totally worth it! Sassafras Mountain is breathtaking.",
+        comment: "Challenging but totally worth it! Breathtaking views.",
       },
       {
         author: "AdventureGal",
         rating: 5,
-        comment:
-          "One of the best long hikes I've done in SC. Lots of variety in the terrain!",
+        comment: "One of the best long hikes I've done in SC.",
       },
       {
         author: "BackpackerPro",
-        rating: 4.5,
-        comment:
-          "Great experience, but definitely not for beginners. Be prepared!",
+        rating: 4,
+        comment: "Great experience, but not for beginners.",
       },
     ],
-    pictures: ["foothills1.jpg", "foothills2.jpg", "foothills3.jpg"],
   },
   {
-    name: "Kings Mountain National Recreation Trail",
     _id: 5,
+    name: "Kings Mountain National Recreation Trail",
     author: "historyhiker",
     location: "Kings Mountain National Military Park",
     description:
-      "A historical trail that follows the path of Revolutionary War soldiers, featuring rolling terrain and informative markers along the way.",
+      "A historical loop that follows the path of Revolutionary War soldiers.",
     length: 16.0,
     routeType: "Loop",
     difficulty: "Moderate",
+    activityType: "Hike",
     rating: 4.3,
-    activityType: "hike",
-    reviews: [
-      {
-        author: "HistoryBuff101",
-        rating: 5,
-        comment:
-          "Loved the mix of history and nature. Great interpretive signs!",
-      },
-      {
-        author: "TrailRunner88",
-        rating: 4,
-        comment: "Nice trail for running, but some sections can get muddy.",
-      },
-      {
-        author: "WeekendExplorer",
-        rating: 4.5,
-        comment: "A long but enjoyable hike with some cool historical sites.",
-      },
-    ],
     pictures: [
       "kingsmountain1.jpg",
       "kingsmountain2.jpg",
       "kingsmountain3.jpg",
     ],
+    reviews: [
+      {
+        author: "HistoryBuff101",
+        rating: 5,
+        comment: "Loved the mix of history and nature.",
+      },
+      {
+        author: "TrailRunner88",
+        rating: 4,
+        comment: "Nice trail for running, but some sections get muddy.",
+      },
+      {
+        author: "WeekendExplorer",
+        rating: 4,
+        comment: "Long but enjoyable with cool historical sites.",
+      },
+    ],
   },
   {
-    name: "Peachtree Rock Heritage Preserve Trail",
     _id: 6,
+    name: "Peachtree Rock Heritage Preserve Trail",
     author: "localwanderer",
     location: "Lexington County",
     description:
-      "An easy trail that showcases sandstone formations and small waterfalls. Great for a quick escape into nature.",
+      "Easy loop showcasing sandstone formations and small waterfalls.",
     length: 1.7,
     routeType: "Loop",
     difficulty: "Easy",
+    activityType: "Hike",
     rating: 4.2,
-    activityType: "hike",
+    pictures: ["peachrock1.jpg", "peachrock2.jpg", "peachrock3.jpg"],
     reviews: [
       {
         author: "QuickTrekker",
         rating: 4,
-        comment:
-          "Nice little trail for a short trip. Interesting rock formations!",
+        comment: "Nice little trail for a short trip.",
       },
       {
         author: "FamilyHiker",
-        rating: 4.5,
+        rating: 4,
         comment: "Great for kids, easy and educational.",
       },
     ],
-    pictures: ["peachrock1.jpg", "peachrock2.jpg", "peachrock3.jpg"],
   },
   {
-    name: "Croft State Park Trail System",
     _id: 7,
+    name: "Croft State Park Trail System",
     author: "bikepackerSC",
     location: "Croft State Park",
-    description:
-      "A multi-use trail system ideal for hiking, biking, and horseback riding. Features dense woods, streams, and a peaceful lake.",
+    description: "Multi‑use loop through woods, streams, and a peaceful lake.",
     length: 12.0,
     routeType: "Loop",
     difficulty: "Moderate",
+    activityType: "Bike",
     rating: 4.6,
-    activityType: "hike",
+    pictures: ["croft1.jpg", "croft2.jpg", "croft3.jpg"],
     reviews: [
       {
         author: "BikerBob",
         rating: 5,
-        comment: "Great variety of trails and terrain. Well-maintained.",
+        comment: "Great variety of trails and terrain.",
       },
       {
         author: "TrailMom",
-        rating: 4.5,
+        rating: 4,
         comment: "Nice loop for a longer outing without driving too far.",
       },
     ],
-    pictures: ["croft1.jpg", "croft2.jpg", "croft3.jpg"],
   },
 ];
 
-app.get("/api/activities", (req, res) => {
-  res.send(activities);
+// Get Activities
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
 });
 
+//Post Activity
 app.post("/api/activities", upload.single("img"), (req, res) => {
   const result = validateActivity(req.body);
 
   if (result.error) {
-    console.log("Post Error");
+    console.log("Error validating activity");
     res.status(400).send(result.error.details[0].message);
     return;
   }
@@ -262,39 +276,85 @@ app.post("/api/activities", upload.single("img"), (req, res) => {
   const activity = {
     _id: activities.length,
     name: req.body.name,
+    author: req.body.author,
     location: req.body.location,
     description: req.body.description,
-    length: req.body.length,
+    length: parseFloat(req.body.length),
     routeType: req.body.routeType,
     difficulty: req.body.difficulty,
-    rating: req.body.rating,
     activityType: req.body.activityType,
-    pictures: JSON.parse(req.body.pictures || "[]"),
+    pictures: req.body.pictures || [],
+    rating: parseFloat(req.body.rating || 0),
+    reviews: req.body.reviews || [],
   };
+
+  if (req.file) {
+    activity.pictures[0] = req.file.filename;
+  }
 
   activities.push(activity);
   res.status(200).send(activity);
 });
 
-const validateActivity = (activity) => {
-  const schema = Joi.object({
-    _id: Joi.allow(""),
-    name: Joi.string().min(3).required(),
-    location: Joi.string().min(3).required(),
-    description: Joi.string().min(10).required(),
-    length: Joi.number().min(0.1).required(),
-    routeType: Joi.string()
-      .valid("Loop", "Out and Back", "Point to Point", "Other")
-      .required(),
-    difficulty: Joi.string().valid("Easy", "Moderate", "Hard").required(),
-    activityType: Joi.string()
-      .valid("Hike", "Bike", "Kayak", "Run", "Walk")
-      .required(),
-    pictures: Joi.array().items(Joi.string().min(3))
-  });
+// Put / Update
+app.put("/api/activities/:id", upload.single("img"), (req, res) => {
+  const activity = activities.find(
+    (activity) => activity._id === parseInt(req.params.id)
+  );
 
-  return schema.validate(activity);
-};
+  if (!activity) {
+    res.status(404).send("The activity with provided ID was not found");
+    return;
+  }
+
+  const result = validateActivity(req.body);
+
+  if (result.error) {
+    res.status(400).send(result.error.details[0].message);
+    return;
+  }
+
+  activity.name = req.body.name;
+  activity.author = req.body.author;
+  activity.location = req.body.location;
+  activity.description = req.body.description;
+  activity.length = parseFloat(req.body.length);
+  activity.routeType = req.body.routeType;
+  activity.difficulty = req.body.difficulty;
+  activity.activityType = req.body.activityType;
+  activity.pictures = req.body.pictures || activity.pictures;
+  activity.rating = req.body.rating
+    ? parseFloat(req.body.rating)
+    : activity.rating;
+  activity.reviews = req.body.reviews || activity.reviews;
+
+  if (req.file) {
+    activity.pictures[0] = req.file.filename;
+  }
+
+  res.status(200).send(activity);
+});
+
+// Delete activity
+app.delete("/api/activities/:_id", (req, res) => {
+  const activity = activities.find(
+    (activity) => activity._id === parseInt(req.params.id)
+  );
+
+  if (!activity) {
+    res.status(404).send("The activity with provided id was not found");
+    return;
+  }
+
+  console.log("Deleting: " + activity.name);
+  const index = activities.indexOf(activity);
+  activities.splice(index, 1);
+  res.status(200).send(activity);
+});
+
+app.get("/api/activities", (req, res) => {
+  res.send(activities);
+});
 
 app.listen(3001, () => {
   console.log("testing");
