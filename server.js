@@ -22,9 +22,9 @@ const validateActivity = (activity) => {
   const schema = Joi.object({
     _id: Joi.number().optional(),
     name: Joi.string().min(3).required(),
-    author: Joi.string().min(3).required(),
+    author: Joi.string().min(3).optional(),
     location: Joi.string().min(3).required(),
-    description: Joi.string().min(10).required(),
+    description: Joi.string().min(1).required(),
     length: Joi.number().min(0).required(),
     routeType: Joi.string()
       .valid("Loop", "Out and Back", "Point to Point")
