@@ -35,8 +35,7 @@ const validateActivity = (activity) => {
       .required(),
     pictures: Joi.array().items(Joi.string()).optional(),
     rating: Joi.number().min(0).max(5).optional(),
-    reviews: Joi.array
-      .optional()
+    reviews: Joi.array()
       .items(
         Joi.object({
           author: Joi.string().min(1).required(),
