@@ -68,7 +68,7 @@ const validateActivity = (activity) => {
       .valid("Hike", "Bike", "Kayak", "Walk", "Run")
       .required(),
     pictures: Joi.array().items(Joi.string()).optional(),
-    rating: Joi.number().min(0).max(5).optional(),
+    rating: Joi.number().min(0).max(5).optional().default(1),
     reviews: Joi.array()
       .items(
         Joi.object({
@@ -298,8 +298,6 @@ app.get("/", (req, res) => {
 
 //Post Activity
 app.post("/api/activities", upload.single("img"), async (req, res) => {
-  console.log("📥 req.file:", req.file);
-  console.log("📥 req.body:", req.body);
   const result = validateActivity(req.body);
 
   if (result.error) {
@@ -323,7 +321,6 @@ app.post("/api/activities", upload.single("img"), async (req, res) => {
   });
 
   if (req.file) {
-    console.log(req.file.filename);
     activity.pictures[0] = req.file.filename;
   }
 
