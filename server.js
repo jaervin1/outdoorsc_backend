@@ -306,7 +306,7 @@ app.post("/api/activities", upload.single("img"), async (req, res) => {
     return;
   }
 
-  const activity = new House({
+  const activity = new Activity({
     name: req.body.name,
     author: req.body.author,
     location: req.body.location,
