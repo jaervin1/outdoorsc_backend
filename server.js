@@ -43,7 +43,7 @@ const Activity = mongoose.model("Activity", activitySchema);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./public/images");
+    cb(null, "./public/images/activity-images");
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -298,6 +298,8 @@ app.get("/", (req, res) => {
 
 //Post Activity
 app.post("/api/activities", upload.single("img"), async (req, res) => {
+  console.log("📥 req.file:", req.file);
+  console.log("📥 req.body:", req.body);
   const result = validateActivity(req.body);
 
   if (result.error) {
