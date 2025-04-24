@@ -321,6 +321,7 @@ app.post("/api/activities", upload.single("img"), async (req, res) => {
   });
 
   if (req.file) {
+    console.log(req.file.filename);
     activity.pictures[0] = req.file.filename;
   }
 
@@ -346,7 +347,7 @@ app.put("/api/activities/:id", upload.single("img"), async (req, res) => {
     routeType: req.body.routeType,
     difficulty: req.body.difficulty,
     activityType: req.body.activityType,
-    pictures: req.body.pictures || pictures,
+    pictures: req.body.pictures,
     rating: req.body.rating ? parseFloat(req.body.rating) : rating,
     areviews: req.body.reviews || reviews,
   }
