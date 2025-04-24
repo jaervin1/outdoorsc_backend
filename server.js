@@ -43,7 +43,7 @@ const Activity = mongoose.model("Activity", activitySchema);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./public/images/activity-images");
+    cb(null, "./public/images");
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -331,14 +331,15 @@ app.post("/api/activities", upload.single("img"), async (req, res) => {
 
 // Put / Update
 app.put("/api/activities/:id", upload.single("img"), async (req, res) => {
-  const result = validateActivity(req.body);
+  // Valiate request
+  const { error } = validateActivity(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
 
-  if (result.error) {
-    res.status(400).send(result.error.details[0].message);
-    return;
-  }
+  // Fetch existing activity
+  const existing = await Activity.findById(req.params.id);
+  if (!existing) return res.status(404).send("Activity not found.");
 
-  const fieldsToUpdate = {
+  const updatedData = {
     name: req.body.name,
     author: req.body.author,
     location: req.body.location,
@@ -347,24 +348,34 @@ app.put("/api/activities/:id", upload.single("img"), async (req, res) => {
     routeType: req.body.routeType,
     difficulty: req.body.difficulty,
     activityType: req.body.activityType,
-    pictures: req.body.pictures,
-    rating: req.body.rating ? parseFloat(req.body.rating) : rating,
-    areviews: req.body.reviews || reviews,
-  }
-
+    // if pictures array sent, use it; otherwise keep what’s already in the DB
+    pictures: Array.isArray(req.body.pictures)
+      ? req.body.pictures
+      : existing.pictures,
+    // overwrite rating only if provided; otherwise keep old rating
+    rating:
+      req.body.rating != null ? parseFloat(req.body.rating) : existing.rating,
+    reviews: Array.isArray(req.body.reviews)
+      ? req.body.reviews
+      : existing.reviews,
+  };
 
   if (req.file) {
-    fieldsToUpdate.pictures[0] = req.file.filename;
+    // match exactly how you serve static files; prepend the public path
+    updatedData.pictures[0] = `/images/activity-images/${req.file.filename}`;
   }
 
-  const wentThrough = await Activity.updateOne({_id:req.params.id}, fieldsToUpdate);
-  const activity = await(Activity.findOne({_id:req.params.id}));
+  const activity = await Activity.findByIdAndUpdate(
+    req.params.id,
+    updatedData,
+    { new: true, runValidators: true }
+  );
 
   res.status(200).send(activity);
 });
 
 // Delete activity
-app.delete("/api/activities/:id", async(req, res) => {
+app.delete("/api/activities/:id", async (req, res) => {
   const activity = await Activity.findByIdAndDelete(req.params.id);
   res.status(200).send(activity);
 });
