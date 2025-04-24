@@ -322,7 +322,7 @@ app.post("/api/activities", upload.single("img"), async (req, res) => {
 
   if (req.file) {
     console.log(req.file.filename);
-    activity.pictures[0] = "images/activity-images/" + req.file.filename;
+    activity.pictures[0] = req.file.filename;
   }
 
   const newActivity = await activity.save();
