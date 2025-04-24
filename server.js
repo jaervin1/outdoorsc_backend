@@ -2,10 +2,44 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const multer = require("multer");
+const mongoose = require("mongoose");
 const Joi = require("joi");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
+
+mongoose
+  .connect(
+    "mongodb+srv://jaervin:UVpKugVrSIWmb5wq@outdoorsc-db.6gvwghi.mongodb.net/"
+  )
+  .then(() => {
+    console.log("connected to mongodb");
+  })
+  .catch((error) => {
+    console.log("couldn't connect to mongodb", error);
+  });
+
+const reviewSchema = new mongoose.Schema({
+  author: String,
+  rating: Number,
+  comment: String,
+});
+
+const activitySchema = new mongoose.Schema({
+  name: String,
+  author: String,
+  location: String,
+  description: String,
+  length: Number,
+  routeType: String,
+  difficulty: String,
+  activityType: String,
+  pictures: [String],
+  rating: Number,
+  reviews: [reviewSchema],
+});
+
+const Activity = mongoose.model("Activity", activitySchema);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -263,7 +297,7 @@ app.get("/", (req, res) => {
 });
 
 //Post Activity
-app.post("/api/activities", upload.single("img"), (req, res) => {
+app.post("/api/activities", upload.single("img"), async (req, res) => {
   const result = validateActivity(req.body);
 
   if (result.error) {
@@ -272,8 +306,7 @@ app.post("/api/activities", upload.single("img"), (req, res) => {
     return;
   }
 
-  const activity = {
-    _id: activities.length,
+  const activity = new House({
     name: req.body.name,
     author: req.body.author,
     location: req.body.location,
@@ -285,27 +318,18 @@ app.post("/api/activities", upload.single("img"), (req, res) => {
     pictures: req.body.pictures || [],
     rating: parseFloat(req.body.rating || 0),
     reviews: req.body.reviews || [],
-  };
+  });
 
   if (req.file) {
     activity.pictures[0] = req.file.filename;
   }
 
-  activities.push(activity);
-  res.status(200).send(activity);
+  const newActivity = await activity.save();
+  res.status(200).send(newActivity);
 });
 
 // Put / Update
-app.put("/api/activities/:id", upload.single("img"), (req, res) => {
-  const activity = activities.find(
-    (activity) => activity._id === parseInt(req.params.id)
-  );
-
-  if (!activity) {
-    res.status(404).send("The activity with provided ID was not found");
-    return;
-  }
-
+app.put("/api/activities/:id", upload.single("img"), async (req, res) => {
   const result = validateActivity(req.body);
 
   if (result.error) {
@@ -313,41 +337,34 @@ app.put("/api/activities/:id", upload.single("img"), (req, res) => {
     return;
   }
 
-  activity.name = req.body.name;
-  activity.author = req.body.author;
-  activity.location = req.body.location;
-  activity.description = req.body.description;
-  activity.length = parseFloat(req.body.length);
-  activity.routeType = req.body.routeType;
-  activity.difficulty = req.body.difficulty;
-  activity.activityType = req.body.activityType;
-  activity.pictures = req.body.pictures || activity.pictures;
-  activity.rating = req.body.rating
-    ? parseFloat(req.body.rating)
-    : activity.rating;
-  activity.reviews = req.body.reviews || activity.reviews;
+  const fieldsToUpdate = {
+    name: req.body.name,
+    author: req.body.author,
+    location: req.body.location,
+    description: req.body.description,
+    length: parseFloat(req.body.length),
+    routeType: req.body.routeType,
+    difficulty: req.body.difficulty,
+    activityType: req.body.activityType,
+    pictures: req.body.pictures || pictures,
+    rating: req.body.rating ? parseFloat(req.body.rating) : rating,
+    areviews: req.body.reviews || reviews,
+  }
+
 
   if (req.file) {
-    activity.pictures[0] = req.file.filename;
+    fieldsToUpdate.pictures[0] = req.file.filename;
   }
+
+  const wentThrough = await Activity.updateOne({_id:req.params.id}, fieldsToUpdate);
+  const activity = await(Activity.findOne({_id:req.params.id}));
 
   res.status(200).send(activity);
 });
 
 // Delete activity
-app.delete("/api/activities/:id", (req, res) => {
-  const activity = activities.find(
-    (activity) => activity._id === parseInt(req.params.id)
-  );
-
-  if (!activity) {
-    res.status(404).send("The activity with provided id was not found");
-    return;
-  }
-
-  console.log("Deleting: " + activity.name);
-  const index = activities.indexOf(activity);
-  activities.splice(index, 1);
+app.delete("/api/activities/:id", async(req, res) => {
+  const activity = await Activity.findByIdAndDelete(req.params.id);
   res.status(200).send(activity);
 });
 
@@ -358,7 +375,9 @@ app.get("/api/activities/:id", (req, res) => {
   res.send(activity);
 });
 
-app.get("/api/activities", (req, res) => {
+app.get("/api/activities", async (req, res) => {
+  const activities = await Activity.find();
+  console.log(activities);
   res.send(activities);
 });
 
