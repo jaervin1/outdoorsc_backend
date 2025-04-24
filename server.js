@@ -43,7 +43,7 @@ const Activity = mongoose.model("Activity", activitySchema);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./public/images/");
+    cb(null, "./public/images/activity-images");
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
